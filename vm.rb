@@ -99,7 +99,7 @@ class VendingMachine
     if current_slot_money != 0
       puts "現在の金額では #{texts.join('、')}をご購入いただけます"
     else
-      puts "高入金が不足しています"
+      puts "購入金が不足しています"
     end
   end
 
