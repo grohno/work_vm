@@ -5,11 +5,24 @@
 # vm.store    在庫追加
 # vm.store_juice    在庫確認
 # vm.choice   購入可能商品の照会
-# vm.purchase('water')    水を購入
+# vm.purchase(2)    水を購入
 # vm.current_slot_money    現在の投入金額
 # vm.sale_proceeds    売上
 # vm.return_money   釣り銭返却
 
+class Drink
+  attr_accessor :name,
+                :price,
+                :stock
+  def initialize(name, price, stock)
+    @name = name
+    @price = price
+    @stock = stock
+  end
+  def hash
+    hash = {name: @name, price: @price, stock: @stock}
+  end
+end
 
 class VendingMachine
   # ステップ０　お金の投入と払い戻しの例コード
@@ -22,7 +35,8 @@ class VendingMachine
     # 最初の自動販売機に入っている金額は0円
     @slot_money = 0
     # 品揃え、値段、在庫の初期設定
-    @buttons = [{name: 'coke', price: 120, stock: 5}]
+    coke = Drink.new('coke', 120, 5)
+    @buttons = [coke.hash]
     # 売上を格納する変数の初期設定
     @sale = 0
   end
@@ -63,8 +77,10 @@ class VendingMachine
 
   # ジュースを追加格納する
   def store
-    @buttons << {name: 'Red Bull', price: 200, stock: 5}
-    @buttons << {name: 'water', price: 100, stock: 5}
+    redbull = Drink.new('Red Bull', 200, 5)
+    water = Drink.new('water', 100, 5)
+    @buttons << redbull.hash
+    @buttons << water.hash
   end
 
   # 買えるもの表示し、商品を選択する
