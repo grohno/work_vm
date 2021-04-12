@@ -84,18 +84,22 @@ class VendingMachine
   end
 
   # 買えるもの表示し、商品を選択する
-  def choice  #在庫の条件分岐を追加する
-    # お金が200円以上で、すべての在庫がある場合
-    if current_slot_money >= @buttons[1][:price] && @buttons[0][:stock] >= 1 && @buttons[1][:stock] >= 1 && @buttons[2][:stock] >= 1
-      puts "0番：#{@buttons[0][:name]}, 1番：#{@buttons[1][:name]}, 2番：#{@buttons[2][:name]}の中からお選び頂けます。"
-    # お金が120円以上で、コーラと水の在庫がある場合
-    elsif current_slot_money >= @buttons[0][:price] && @buttons[0][:stock] >= 1 && @buttons[2][:stock] >= 1
-      puts "0番：#{@buttons[0][:name]}, 2番：#{button[2][:name]}の中からお選び頂けます。"
-    # お金が100円以上で、水の在庫がある場合
-    elsif current_slot_money >= @buttons[2][:price] && @buttons[2][:stock] >= 1
-      puts "2番：#{@buttons[2][:name]}のみお選び頂けます。"
+  def choice
+    texts = []
+    @buttons.length.times do |i|
+      if @buttons[i][:stock] == 0
+        puts "#{i}番：#{@buttons[i][:name]} は売り切れです"
+      end
+      if @buttons[i][:stock] != 0
+        if current_slot_money >= @buttons[i][:price]
+          texts << "#{i}番：#{@buttons[i][:name]} "
+        end
+      end
+    end
+    if current_slot_money != 0
+      puts "現在の金額では #{texts.join('、')}をご購入いただけます"
     else
-      # puts "購入金が不足しています。"    # 投入金額が足りない場合もしくは在庫がない場合、購入操作を行っても何もしない。
+      puts "高入金が不足しています"
     end
   end
 
