@@ -2,7 +2,8 @@
 # irb
 # vm = VendingMachine.new   インスタンス化
 # vm.slot_money (100)   お金を入れる
-# vm.store    在庫追加
+# vm.store(Drink.redbull, 5)  在庫追加(レッドブルを5本)
+# vm.store(Drink.water, 5)  在庫追加(水を5本)
 # vm.store_juice    在庫確認
 # vm.choice   購入可能商品の照会
 # vm.purchase(2)    水を購入
@@ -11,16 +12,22 @@
 # vm.return_money   釣り銭返却
 
 class Drink
-  attr_accessor :name,
-                :price,
-                :stock
-  def initialize(name, price, stock)
+  attr_reader :name, :price
+  def self.coke
+    self.new 120, :coke
+  end
+  def self.redbull
+    self.new 200, :red_bull
+  end
+  def self.water
+    self.new 100, :water
+  end
+  def initialize price, name
     @name = name
     @price = price
-    @stock = stock
   end
   def hash
-    hash = {name: @name, price: @price, stock: @stock}
+    hash = {name: @name, price: @price}
   end
 end
 
@@ -35,8 +42,10 @@ class VendingMachine
     # 最初の自動販売機に入っている金額は0円
     @slot_money = 0
     # 品揃え、値段、在庫の初期設定
-    coke = Drink.new('coke', 120, 5)
-    @buttons = [coke.hash]
+    coke = Drink.new(120, 'coke')
+    cokehash = coke.hash
+    cokehash[:stock] = 5
+    @buttons = [cokehash]
     # 売上を格納する変数の初期設定
     @sale = 0
   end
@@ -67,20 +76,18 @@ class VendingMachine
 
   # 売上を表示する
   def sale_proceeds
-    puts @sale
+    @sale
   end
 
   # ジュースの情報を出力
   def store_juice
-    puts @buttons
+    @buttons
   end
 
   # ジュースを追加格納する
-  def store
-    redbull = Drink.new('Red Bull', 200, 5)
-    water = Drink.new('water', 100, 5)
-    @buttons << redbull.hash
-    @buttons << water.hash
+  def store(drink, num)
+    hash = {name: drink.name, price: drink.price, stock: num}
+    @buttons << hash
   end
 
   # 買えるもの表示し、商品を選択する
@@ -88,17 +95,21 @@ class VendingMachine
     texts = []
     @buttons.length.times do |i|
       if @buttons[i][:stock] == 0
+        # ↓ 最終的にはコメントアウト？
         puts "#{i}番：#{@buttons[i][:name]} は売り切れです"
       end
       if @buttons[i][:stock] != 0
         if current_slot_money >= @buttons[i][:price]
-          texts << "#{i}番：#{@buttons[i][:name]} "
+          texts << "#{i}番：#{@buttons[i][:name]}"
         end
       end
     end
-    if current_slot_money != 0
-      puts "現在の金額では #{texts.join('、')}をご購入いただけます"
+    if current_slot_money != 0 && texts.length != 0
+      # ↓ 最終的にはコメントアウト？
+      puts "現在の金額では #{texts.join(' 、')}をご購入いただけます"
+      texts
     else
+      # ↓ 最終的にはコメントアウト？
       puts "購入金が不足しています"
     end
   end
@@ -110,11 +121,19 @@ class VendingMachine
         @slot_money -= @buttons[button][:price]
         @buttons[button][:stock] -= 1
         @sale += @buttons[button][:price]
+        # ↓ 最終的にはコメントアウト？
         puts "#{@buttons[button][:name]}を購入しました"
+        # ステップ5の、
+        # 「ジュース値段以上の投入金額が投入されている条件下で購入操作を行うと、
+        # 釣り銭（投入金額とジュース値段の差分）を出力する。」の要件に沿って
+        # 現段階の残額を返す
+        @slot_money
       else
+        # ↓ 最終的にはコメントアウト？
         puts "購入金が不足しています。"
       end
     else
+      # ↓ 最終的にはコメントアウト？
       puts "この商品は売り切れです"
     end
   end
