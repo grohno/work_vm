@@ -103,10 +103,8 @@ class VendingMachine
         # ↓ 最終的にはコメントアウト？
         puts "#{i}番：#{@buttons[i][:name]} は売り切れです"
       end
-      if @buttons[i][:stock] != 0
-        if current_slot_money >= @buttons[i][:price]
-          texts << "#{i}番：#{@buttons[i][:name]}"
-        end
+      if (@buttons[i][:stock] != 0) && (current_slot_money >= @buttons[i][:price])
+        texts << "#{i}番：#{@buttons[i][:name]}"
       end
     end
     if current_slot_money != 0 && texts.length != 0
