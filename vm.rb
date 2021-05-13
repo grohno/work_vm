@@ -8,7 +8,7 @@
 # vm.choice   購入可能商品の照会
 # vm.purchase(2)    水を購入
 # vm.current_slot_money    現在の投入金額
-# vm.sale_proceeds    売上
+# vm.sale_proceeds    売上金
 # vm.return_money   釣り銭返却
 
 class Drink
