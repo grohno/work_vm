@@ -5,12 +5,12 @@
 # vm.insert_money(80)
 # vm.slot_money
 # vm.return_money
-# vm.store(Drink.red_bull, 5)
-# vm.store(Drink.water, 5)
+# vm.store_stock(Drink.red_bull, 5)
+# vm.store_stock(Drink.water, 5)
 # vm.purchased_list
 # vm.purchase(:coke)
 # vm.purchase(:red_bull)
-# vm.purchase(:rwater)
+# vm.purchase(:water)
 # vm.sale_proceeds
 
 class Drink
@@ -41,7 +41,6 @@ class VendingMachine
     @sale = 0
     @buttons = []
     @coke = Drink.coke.hash
-    # cokehash = coke.hash
     @coke[:stock] = 5
     @buttons << @coke
   end
@@ -65,14 +64,15 @@ class VendingMachine
     @buttons
   end
 
-  def store(drink, num)
+  def store_stock(drink, num)
     match_button = @buttons.find { |button| button[:name] == drink.name}
     if match_button
       match_button[:stock] += num
-      puts @buttons
+      match_button
     else
       hash = {name: drink.name, price: drink.price, stock: num}
       @buttons << hash
+      hash
     end
   end
 
