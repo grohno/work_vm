@@ -5,11 +5,11 @@
 # vm.insert_money(money)        お金を入れる　★適正値意外にnillを返したい
 # vm.slot_money                現在の投入金額
 # vm.return_money              投入金額返却
-# vm.store(Drink.red_bull, 5)  在庫追加(レッドブルを5本)
-# vm.store(Drink.water, 5)     在庫追加(水を5本)
+# vm.store(red_bull, 5)  在庫追加(レッドブルを5本)
+# vm.store(water, 5)     在庫追加(水を5本)
 # vm.store_info                在庫確認
 # vm.purchased_list            購入可能商品の照会
-# vm.purchase(2)               水を購入 ★引数をnameにしたい
+# vm.purchase(name)               水を購入 ★引数をnameにしたい
 # vm.sale_proceeds             売上金
 
 class Drink
@@ -40,7 +40,6 @@ class VendingMachine
     @sale = 0
     @buttons = []
     @coke = Drink.coke.hash
-    # cokehash = coke.hash
     @coke[:stock] = 5
     @buttons << @coke
   end
@@ -63,52 +62,29 @@ class VendingMachine
   def store_info
     @buttons
   end
-
-  def store(drink, num)
-    match_button = @buttons.find { |button| button[:name] == drink.name}
+  def store_stock(name, num)
+    match_button = @buttons.find { |button| button == Drink.name}.hash
     if match_button
       match_button[:stock] += num
     else
-      drink = Drink.drink.hash
-      @buttons << drink
+      name = match_button
+      @buttons << name
     end
   end
-
-  def purchased_list        # choice
-     texts = []
-    @buttons.each do |i|
-      # if @buttons[i][:stock] == 0
-        # puts "#{i}番：#{@buttons[i][:name]} は売り切れです"
-      # end
-      if ( i[:stock] != 0 ) && ( @slot_money >= i[:price] )
-       p i[:name]
+  def purchased_list
+    @buttons.each do |button|
+      if ( button[:stock] != 0 ) && ( @slot_money >= button[:price] )
+        button[:name]
       end
     end
-    # if current_slot_money != 0 && texts.length != 0
-      # puts "現在の金額では #{texts.join(' 、')}をご購入いただけます"
-      # texts
-    # else
-      # puts "購入金が不足しています"
-    # end
   end
-
   def purchase(name)
-    match_button = @buttons.find { |button| button[:name] == name}
-    if match_button
-      match_button[:stock] += num
-
-
-    if ( @name[:stock] >= 1 ) && ( @slot_money >= @name[:price] )
-        @slot_money -= @bbutton][:price]
-        @buttons[button][:stock] -= 1
-        @sale += @buttons[button][:price]
-        # puts "#{@buttons[button][:name]}を購入しました"
-        @slot_money
-      # else
-        # puts "購入金が不足しています。"
-      # end
-    # else
-      # puts "この商品は売り切れです"
+    match_button = @buttons.find { |button| button == Drink.name}
+    if ( match_button[:stock] >= 1 ) && ( @slot_money >= match_button[:price] )
+      @slot_money -= match_button[:price]
+      match_button[:stock] -= 1
+      @sale += match_button[:price]
+      p @slot_money
     end
   end
 end
