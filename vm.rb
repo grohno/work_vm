@@ -74,10 +74,6 @@ class VendingMachine
       new_boutton[:stock] = 5
       @buttons << new_boutton
       new_boutton
-
-      # hash = {name: drink.name, price: drink.price, stock: num}
-      # @buttons << hash
-      # hash
     end
   end
 
