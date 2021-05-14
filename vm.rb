@@ -5,8 +5,8 @@
 # vm.insert_money(money)        お金を入れる　★適正値意外にnillを返したい
 # vm.slot_money                現在の投入金額
 # vm.return_money              投入金額返却
-# vm.store(red_bull, 5)  在庫追加(レッドブルを5本)
-# vm.store(water, 5)     在庫追加(水を5本)
+# vm.store_stock(red_bull, 5)  在庫追加(レッドブルを5本)
+# vm.store_stock(water, 5)     在庫追加(水を5本)
 # vm.store_info                在庫確認
 # vm.purchased_list            購入可能商品の照会
 # vm.purchase(name)               水を購入 ★引数をnameにしたい
