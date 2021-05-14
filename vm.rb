@@ -69,13 +69,13 @@ class VendingMachine
     if match_button
       match_button[:stock] += num
     else
-      @drink = Drink.drink.hash
-      @buttons << @drink
+      drink = Drink.drink.hash
+      @buttons << drink
     end
   end
 
   def purchased_list        # choice
-    # texts = []
+     texts = []
     @buttons.each do |i|
       # if @buttons[i][:stock] == 0
         # puts "#{i}番：#{@buttons[i][:name]} は売り切れです"
@@ -92,9 +92,14 @@ class VendingMachine
     # end
   end
 
-  def purchase(button)
-    if ( @buttons[button][:stock] >= 1 ) && ( @slot_money >= @buttons[button][:price] )
-        @slot_money -= @buttons[button][:price]
+  def purchase(name)
+    match_button = @buttons.find { |button| button[:name] == name}
+    if match_button
+      match_button[:stock] += num
+
+
+    if ( @name[:stock] >= 1 ) && ( @slot_money >= @name[:price] )
+        @slot_money -= @bbutton][:price]
         @buttons[button][:stock] -= 1
         @sale += @buttons[button][:price]
         # puts "#{@buttons[button][:name]}を購入しました"
