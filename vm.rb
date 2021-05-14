@@ -40,9 +40,9 @@ class VendingMachine
     @slot_money = 0
     @sale = 0
     @buttons = []
-    @coke = Drink.coke.hash
-    @coke[:stock] = 5
-    @buttons << @coke
+    coke = Drink.coke.hash
+    coke[:stock] = 5
+    @buttons << coke
   end
 
   def slot_money
@@ -70,9 +70,14 @@ class VendingMachine
       match_button[:stock] += num
       match_button
     else
-      hash = {name: drink.name, price: drink.price, stock: num}
-      @buttons << hash
-      hash
+      new_boutton = drink.hash
+      new_boutton[:stock] = 5
+      @buttons << new_boutton
+      new_boutton
+
+      # hash = {name: drink.name, price: drink.price, stock: num}
+      # @buttons << hash
+      # hash
     end
   end
 
@@ -87,11 +92,11 @@ class VendingMachine
   end
 
   def purchase(name)
-    match_button = @buttons.find { |button| button[:name] == name}
-    if ( match_button[:stock] >= 1 ) && ( @slot_money >= match_button[:price] )
-        @slot_money -= match_button[:price]
-        match_button[:stock] -= 1
-        @sale += match_button[:price]
+    push_button = @buttons.find { |button| button[:name] == name}
+    if ( push_button[:stock] >= 1 ) && ( @slot_money >= push_button[:price] )
+        @slot_money -= push_button[:price]
+        push_button[:stock] -= 1
+        @sale += push_button[:price]
         @slot_money
     end
   end
